@@ -1,0 +1,1550 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover"
+    >
+
+    <meta name="theme-color" content="#ffffff">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+    <title>CyberPanel</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- =========================================================
+     APP
+========================================================= -->
+
+<div id="app">
+
+    <!-- Overlay móvil -->
+    <div id="overlay" class="overlay"></div>
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+    <aside id="sidebar" class="sidebar">
+
+        <div class="sidebar-top">
+
+            <div class="brand">
+                <div class="brand-logo">
+                    CP
+                </div>
+
+                <div class="brand-info">
+                    <strong>CyberPanel</strong>
+                    <span>Control Center</span>
+                </div>
+            </div>
+
+            <button
+                id="closeSidebar"
+                class="mobile-close"
+                type="button"
+                aria-label="Cerrar menú"
+            >
+                ×
+            </button>
+
+        </div>
+
+        <nav class="navigation">
+
+            <button
+                class="nav-item active"
+                type="button"
+                data-section="dashboard"
+            >
+                <span class="nav-icon">⌂</span>
+                <span>Dashboard</span>
+            </button>
+
+            <button
+                class="nav-item"
+                type="button"
+                data-section="devices"
+            >
+                <span class="nav-icon">▣</span>
+                <span>Dispositivos</span>
+                <span id="navDeviceBadge" class="nav-badge">0</span>
+            </button>
+
+            <button
+                class="nav-item"
+                type="button"
+                data-section="screens"
+            >
+                <span class="nav-icon">▤</span>
+                <span>Pantallas</span>
+            </button>
+
+            <button
+                class="nav-item"
+                type="button"
+                data-section="files"
+            >
+                <span class="nav-icon">□</span>
+                <span>Archivos</span>
+                <span id="navFileBadge" class="nav-badge">0</span>
+            </button>
+
+            <button
+                class="nav-item"
+                type="button"
+                data-section="activity"
+            >
+                <span class="nav-icon">◷</span>
+                <span>Actividad</span>
+                <span id="navEventBadge" class="nav-badge">0</span>
+            </button>
+
+            <button
+                class="nav-item"
+                type="button"
+                data-section="console"
+            >
+                <span class="nav-icon">&gt;_</span>
+                <span>Consola</span>
+            </button>
+
+            <button
+                class="nav-item"
+                type="button"
+                data-section="settings"
+            >
+                <span class="nav-icon">⚙</span>
+                <span>Configuración</span>
+            </button>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+
+            <div class="connection-mini">
+
+                <span
+                    id="connectionDot"
+                    class="connection-dot offline"
+                ></span>
+
+                <div>
+                    <strong id="connectionMiniText">
+                        Desconectado
+                    </strong>
+
+                    <span>
+                        Servidor WebSocket
+                    </span>
+                </div>
+
+            </div>
+
+            <div class="sidebar-version">
+                CyberPanel v1.0
+            </div>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+
+    <main class="main">
+
+        <!-- =================================================
+             TOPBAR
+        ================================================== -->
+
+        <header class="topbar">
+
+            <div class="topbar-left">
+
+                <button
+                    id="menuButton"
+                    class="menu-button"
+                    type="button"
+                    aria-label="Abrir menú"
+                >
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+
+                <div class="page-heading">
+
+                    <h1 id="pageTitle">
+                        Dashboard
+                    </h1>
+
+                    <p id="pageSubtitle">
+                        Centro de control de tus dispositivos
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="topbar-right">
+
+                <div
+                    id="connectionStatus"
+                    class="connection-status offline"
+                >
+                    <span class="status-dot"></span>
+                    <span class="status-text">
+                        Desconectado
+                    </span>
+                </div>
+
+                <button
+                    id="notificationButton"
+                    class="icon-button"
+                    type="button"
+                    aria-label="Notificaciones"
+                >
+                    <span>♢</span>
+                    <i id="notificationBadge"></i>
+                </button>
+
+                <div class="profile">
+
+                    <div class="profile-avatar">
+                        CP
+                    </div>
+
+                    <div class="profile-info">
+                        <strong>Panel</strong>
+                        <span>Administrador</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- =================================================
+             CONTENT
+        ================================================== -->
+
+        <div class="content">
+
+
+            <!-- =================================================
+                 DASHBOARD
+            ================================================== -->
+
+            <section
+                id="dashboard"
+                class="page-section active"
+            >
+
+                <div class="welcome-card">
+
+                    <div>
+                        <span class="eyebrow">
+                            CONTROL CENTER
+                        </span>
+
+                        <h2>
+                            Bienvenido a CyberPanel
+                        </h2>
+
+                        <p>
+                            Administra tus dispositivos autorizados,
+                            pantallas, archivos y actividad desde un
+                            solo lugar.
+                        </p>
+                    </div>
+
+                    <button
+                        id="dashboardConnect"
+                        class="primary-button"
+                        type="button"
+                    >
+                        + Conectar dispositivo
+                    </button>
+
+                </div>
+
+
+                <!-- Stats -->
+
+                <div class="stats-grid">
+
+                    <div class="stat-card">
+
+                        <div class="stat-top">
+                            <span class="stat-label">
+                                Dispositivos
+                            </span>
+
+                            <div class="stat-icon">
+                                ▣
+                            </div>
+                        </div>
+
+                        <strong
+                            id="deviceCount"
+                            class="stat-value"
+                        >
+                            0
+                        </strong>
+
+                        <span class="stat-description">
+                            Dispositivos registrados
+                        </span>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-top">
+                            <span class="stat-label">
+                                En línea
+                            </span>
+
+                            <div class="stat-icon">
+                                ●
+                            </div>
+                        </div>
+
+                        <strong
+                            id="onlineCount"
+                            class="stat-value"
+                        >
+                            0
+                        </strong>
+
+                        <span class="stat-description">
+                            Conectados actualmente
+                        </span>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-top">
+                            <span class="stat-label">
+                                Archivos
+                            </span>
+
+                            <div class="stat-icon">
+                                □
+                            </div>
+                        </div>
+
+                        <strong
+                            id="fileCount"
+                            class="stat-value"
+                        >
+                            0
+                        </strong>
+
+                        <span class="stat-description">
+                            Guardados en este navegador
+                        </span>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-top">
+                            <span class="stat-label">
+                                Eventos
+                            </span>
+
+                            <div class="stat-icon">
+                                ◷
+                            </div>
+                        </div>
+
+                        <strong
+                            id="eventCount"
+                            class="stat-value"
+                        >
+                            0
+                        </strong>
+
+                        <span class="stat-description">
+                            Actividad registrada
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Dashboard lower -->
+
+                <div class="dashboard-grid">
+
+                    <div class="panel-card">
+
+                        <div class="panel-header">
+
+                            <div>
+                                <h3>
+                                    Dispositivos recientes
+                                </h3>
+
+                                <p>
+                                    Estado de tus dispositivos autorizados
+                                </p>
+                            </div>
+
+                            <button
+                                id="dashboardDevices"
+                                class="text-button"
+                                type="button"
+                            >
+                                Ver todos
+                            </button>
+
+                        </div>
+
+                        <div
+                            id="dashboardDeviceList"
+                            class="compact-list"
+                        >
+                            <div class="empty-state small">
+                                <div class="empty-icon">▣</div>
+                                <strong>
+                                    No hay dispositivos
+                                </strong>
+                                <span>
+                                    Conecta un dispositivo para comenzar.
+                                </span>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="panel-card">
+
+                        <div class="panel-header">
+
+                            <div>
+                                <h3>
+                                    Actividad reciente
+                                </h3>
+
+                                <p>
+                                    Últimos eventos del sistema
+                                </p>
+                            </div>
+
+                            <button
+                                id="dashboardActivity"
+                                class="text-button"
+                                type="button"
+                            >
+                                Ver actividad
+                            </button>
+
+                        </div>
+
+                        <div
+                            id="dashboardActivityList"
+                            class="compact-list"
+                        >
+                            <div class="empty-state small">
+                                <div class="empty-icon">◷</div>
+                                <strong>
+                                    Sin actividad
+                                </strong>
+                                <span>
+                                    Los eventos aparecerán aquí.
+                                </span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Quick actions -->
+
+                <div class="panel-card quick-panel">
+
+                    <div class="panel-header">
+
+                        <div>
+                            <h3>
+                                Acciones rápidas
+                            </h3>
+
+                            <p>
+                                Accede rápidamente a las funciones principales.
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <div class="quick-actions">
+
+                        <button
+                            class="quick-action"
+                            type="button"
+                            data-section="devices"
+                        >
+                            <span class="quick-icon">
+                                ▣
+                            </span>
+
+                            <span>
+                                <strong>
+                                    Dispositivos
+                                </strong>
+
+                                <small>
+                                    Ver conexiones
+                                </small>
+                            </span>
+                        </button>
+
+
+                        <button
+                            class="quick-action"
+                            type="button"
+                            data-section="screens"
+                        >
+                            <span class="quick-icon">
+                                ▤
+                            </span>
+
+                            <span>
+                                <strong>
+                                    Pantallas
+                                </strong>
+
+                                <small>
+                                    Compartir pantalla
+                                </small>
+                            </span>
+                        </button>
+
+
+                        <button
+                            class="quick-action"
+                            type="button"
+                            data-section="files"
+                        >
+                            <span class="quick-icon">
+                                □
+                            </span>
+
+                            <span>
+                                <strong>
+                                    Archivos
+                                </strong>
+
+                                <small>
+                                    Administrar archivos
+                                </small>
+                            </span>
+                        </button>
+
+
+                        <button
+                            class="quick-action"
+                            type="button"
+                            data-section="console"
+                        >
+                            <span class="quick-icon">
+                                &gt;_
+                            </span>
+
+                            <span>
+                                <strong>
+                                    Consola
+                                </strong>
+
+                                <small>
+                                    Herramientas del panel
+                                </small>
+                            </span>
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 DEVICES
+            ================================================== -->
+
+            <section
+                id="devices"
+                class="page-section"
+            >
+
+                <div class="section-heading">
+
+                    <div>
+                        <span class="eyebrow">
+                            DEVICES
+                        </span>
+
+                        <h2>
+                            Dispositivos
+                        </h2>
+
+                        <p>
+                            Gestiona los dispositivos que han autorizado
+                            esta aplicación.
+                        </p>
+                    </div>
+
+                    <button
+                        id="connectButton"
+                        class="primary-button"
+                        type="button"
+                    >
+                        + Conectar dispositivo
+                    </button>
+
+                </div>
+
+
+                <div
+                    id="deviceGrid"
+                    class="device-grid"
+                >
+
+                    <div class="empty-state">
+                        <div class="empty-icon">
+                            ▣
+                        </div>
+
+                        <h3>
+                            No hay dispositivos conectados
+                        </h3>
+
+                        <p>
+                            Genera un código de conexión para vincular
+                            un dispositivo autorizado.
+                        </p>
+
+                        <button
+                            class="primary-button"
+                            type="button"
+                            id="emptyConnectButton"
+                        >
+                            Conectar dispositivo
+                        </button>
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 SCREENS
+            ================================================== -->
+
+            <section
+                id="screens"
+                class="page-section"
+            >
+
+                <div class="section-heading">
+
+                    <div>
+                        <span class="eyebrow">
+                            SCREEN CENTER
+                        </span>
+
+                        <h2>
+                            Pantallas
+                        </h2>
+
+                        <p>
+                            Visualiza únicamente las pantallas que el
+                            usuario del dispositivo haya autorizado compartir.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div
+                    id="screenGrid"
+                    class="screen-grid"
+                >
+
+                    <div class="screen-empty">
+
+                        <div class="screen-empty-icon">
+                            ▤
+                        </div>
+
+                        <h3>
+                            No hay pantallas compartidas
+                        </h3>
+
+                        <p>
+                            Cuando un dispositivo autorizado inicie
+                            una sesión de pantalla, aparecerá aquí.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 FILES
+            ================================================== -->
+
+            <section
+                id="files"
+                class="page-section"
+            >
+
+                <div class="section-heading">
+
+                    <div>
+                        <span class="eyebrow">
+                            STORAGE
+                        </span>
+
+                        <h2>
+                            Archivos
+                        </h2>
+
+                        <p>
+                            Archivos almacenados localmente en este navegador.
+                        </p>
+                    </div>
+
+                    <label
+                        for="fileInput"
+                        class="primary-button upload-label"
+                    >
+                        + Subir archivo
+                    </label>
+
+                    <input
+                        id="fileInput"
+                        type="file"
+                        hidden
+                        multiple
+                    >
+
+                </div>
+
+
+                <div class="toolbar">
+
+                    <div class="search-box">
+
+                        <span>
+                            ⌕
+                        </span>
+
+                        <input
+                            id="fileSearch"
+                            type="search"
+                            placeholder="Buscar archivos..."
+                            autocomplete="off"
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <div class="panel-card">
+
+                    <div
+                        id="fileList"
+                        class="file-list"
+                    >
+
+                        <div class="empty-state">
+                            <div class="empty-icon">
+                                □
+                            </div>
+
+                            <h3>
+                                No hay archivos
+                            </h3>
+
+                            <p>
+                                Los archivos que subas desde este navegador
+                                aparecerán aquí.
+                            </p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 ACTIVITY
+            ================================================== -->
+
+            <section
+                id="activity"
+                class="page-section"
+            >
+
+                <div class="section-heading">
+
+                    <div>
+                        <span class="eyebrow">
+                            LOGS
+                        </span>
+
+                        <h2>
+                            Actividad
+                        </h2>
+
+                        <p>
+                            Historial de eventos generados por los dispositivos
+                            y el panel.
+                        </p>
+                    </div>
+
+                    <button
+                        id="clearActivity"
+                        class="secondary-button"
+                        type="button"
+                    >
+                        Limpiar actividad
+                    </button>
+
+                </div>
+
+
+                <div class="panel-card">
+
+                    <div
+                        id="activityList"
+                        class="activity-list"
+                    >
+
+                        <div class="empty-state">
+                            <div class="empty-icon">
+                                ◷
+                            </div>
+
+                            <h3>
+                                No hay actividad
+                            </h3>
+
+                            <p>
+                                Los eventos aparecerán aquí cuando ocurran.
+                            </p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 CONSOLE
+            ================================================== -->
+
+            <section
+                id="console"
+                class="page-section"
+            >
+
+                <div class="section-heading">
+
+                    <div>
+                        <span class="eyebrow">
+                            TOOLS
+                        </span>
+
+                        <h2>
+                            Consola
+                        </h2>
+
+                        <p>
+                            Herramientas internas del dashboard.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="console-card">
+
+                    <div class="console-header">
+
+                        <div class="console-status">
+                            <span></span>
+                            Panel Console
+                        </div>
+
+                        <button
+                            id="clearConsole"
+                            class="console-clear"
+                            type="button"
+                        >
+                            Limpiar
+                        </button>
+
+                    </div>
+
+
+                    <div
+                        id="consoleOutput"
+                        class="console-output"
+                    >
+                        <div class="console-line system">
+                            CyberPanel Console
+                        </div>
+
+                        <div class="console-line">
+                            Escribe <strong>help</strong> para ver los comandos.
+                        </div>
+                    </div>
+
+
+                    <div class="console-input-wrapper">
+
+                        <span class="console-prompt">
+                            &gt;
+                        </span>
+
+                        <input
+                            id="consoleInput"
+                            type="text"
+                            placeholder="Escribe un comando..."
+                            autocomplete="off"
+                            spellcheck="false"
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <div class="command-help">
+
+                    <div class="command-item">
+                        <code>help</code>
+                        <span>
+                            Mostrar comandos disponibles
+                        </span>
+                    </div>
+
+                    <div class="command-item">
+                        <code>devices</code>
+                        <span>
+                            Mostrar dispositivos
+                        </span>
+                    </div>
+
+                    <div class="command-item">
+                        <code>files</code>
+                        <span>
+                            Mostrar archivos
+                        </span>
+                    </div>
+
+                    <div class="command-item">
+                        <code>events</code>
+                        <span>
+                            Mostrar eventos
+                        </span>
+                    </div>
+
+                    <div class="command-item">
+                        <code>online</code>
+                        <span>
+                            Mostrar dispositivos en línea
+                        </span>
+                    </div>
+
+                    <div class="command-item">
+                        <code>clear</code>
+                        <span>
+                            Limpiar consola
+                        </span>
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 SETTINGS
+            ================================================== -->
+
+            <section
+                id="settings"
+                class="page-section"
+            >
+
+                <div class="section-heading">
+
+                    <div>
+                        <span class="eyebrow">
+                            SETTINGS
+                        </span>
+
+                        <h2>
+                            Configuración
+                        </h2>
+
+                        <p>
+                            Personaliza el funcionamiento del dashboard.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="settings-list">
+
+                    <div class="setting-card">
+
+                        <div class="setting-info">
+
+                            <div class="setting-icon">
+                                ♢
+                            </div>
+
+                            <div>
+                                <strong>
+                                    Notificaciones
+                                </strong>
+
+                                <p>
+                                    Mostrar avisos cuando ocurran eventos.
+                                </p>
+                            </div>
+
+                        </div>
+
+                        <label class="switch">
+
+                            <input
+                                id="notifications"
+                                type="checkbox"
+                                checked
+                            >
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="setting-card">
+
+                        <div class="setting-info">
+
+                            <div class="setting-icon">
+                                ◌
+                            </div>
+
+                            <div>
+                                <strong>
+                                    Animaciones
+                                </strong>
+
+                                <p>
+                                    Activar animaciones de la interfaz.
+                                </p>
+                            </div>
+
+                        </div>
+
+                        <label class="switch">
+
+                            <input
+                                id="animations"
+                                type="checkbox"
+                                checked
+                            >
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="setting-card">
+
+                        <div class="setting-info">
+
+                            <div class="setting-icon">
+                                ◉
+                            </div>
+
+                            <div>
+                                <strong>
+                                    Estado del servidor
+                                </strong>
+
+                                <p>
+                                    Conexión WebSocket utilizada por el panel.
+                                </p>
+                            </div>
+
+                        </div>
+
+                        <span
+                            id="settingsServerStatus"
+                            class="settings-status"
+                        >
+                            Desconectado
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="info-card">
+
+                    <div class="info-card-icon">
+                        i
+                    </div>
+
+                    <div>
+                        <strong>
+                            Uso responsable
+                        </strong>
+
+                        <p>
+                            Este panel está diseñado para administrar
+                            dispositivos propios o dispositivos cuyo usuario
+                            haya dado autorización explícita. Las funciones
+                            de pantalla requieren una acción de autorización
+                            en el dispositivo.
+                        </p>
+                    </div>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<!-- =========================================================
+     PAIRING MODAL
+========================================================= -->
+
+<div
+    id="pairModal"
+    class="modal hidden"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="pairModalTitle"
+>
+
+    <div class="modal-backdrop"></div>
+
+    <div class="modal-card">
+
+        <button
+            id="closePair"
+            class="modal-close"
+            type="button"
+            aria-label="Cerrar"
+        >
+            ×
+        </button>
+
+        <div class="modal-icon">
+            +
+        </div>
+
+        <span class="eyebrow">
+            DEVICE PAIRING
+        </span>
+
+        <h2 id="pairModalTitle">
+            Conectar dispositivo
+        </h2>
+
+        <p>
+            Genera un código temporal y escríbelo en el dispositivo
+            que quieras autorizar.
+        </p>
+
+
+        <div class="pair-code-box">
+
+            <span>
+                Código de conexión
+            </span>
+
+            <strong id="pairCode">
+                ------ 
+            </strong>
+
+        </div>
+
+
+        <button
+            id="newPairCode"
+            class="primary-button full-button"
+            type="button"
+        >
+            Generar nuevo código
+        </button>
+
+
+        <div class="modal-note">
+
+            <span class="modal-note-icon">
+                i
+            </span>
+
+            <span>
+                El código debe utilizarse desde un dispositivo que
+                tenga permiso para conectarse a este panel.
+            </span>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     DEVICE MODE
+========================================================= -->
+
+<div
+    id="deviceMode"
+    class="device-mode hidden"
+>
+
+    <div class="device-mode-background"></div>
+
+    <div class="device-card">
+
+        <div class="device-brand">
+
+            <div class="brand-logo large">
+                CP
+            </div>
+
+            <div>
+                <strong>
+                    CyberPanel
+                </strong>
+
+                <span>
+                    Device Connection
+                </span>
+            </div>
+
+        </div>
+
+
+        <div id="deviceSetup">
+
+            <span class="eyebrow">
+                AUTORIZAR DISPOSITIVO
+            </span>
+
+            <h1>
+                Conectar este dispositivo
+            </h1>
+
+            <p>
+                Introduce los datos solicitados para vincular este
+                dispositivo con tu panel.
+            </p>
+
+
+            <div class="form-group">
+
+                <label for="deviceName">
+                    Nombre del dispositivo
+                </label>
+
+                <input
+                    id="deviceName"
+                    type="text"
+                    placeholder="Ej. Mi iPhone"
+                    maxlength="40"
+                    autocomplete="off"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="deviceType">
+                    Tipo de dispositivo
+                </label>
+
+                <select id="deviceType">
+
+                    <option value="iPhone">
+                        iPhone
+                    </option>
+
+                    <option value="iPad">
+                        iPad
+                    </option>
+
+                    <option value="Android">
+                        Android
+                    </option>
+
+                    <option value="Windows">
+                        Windows
+                    </option>
+
+                    <option value="Mac">
+                        Mac
+                    </option>
+
+                    <option value="Linux">
+                        Linux
+                    </option>
+
+                    <option value="Otro">
+                        Otro
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="devicePairCode">
+                    Código de conexión
+                </label>
+
+                <input
+                    id="devicePairCode"
+                    type="text"
+                    inputmode="numeric"
+                    maxlength="6"
+                    placeholder="000000"
+                    autocomplete="off"
+                >
+
+            </div>
+
+
+            <button
+                id="authorizeDevice"
+                class="primary-button full-button"
+                type="button"
+            >
+                Autorizar y conectar
+            </button>
+
+
+            <div
+                id="deviceMessage"
+                class="device-message"
+            ></div>
+
+        </div>
+
+
+        <!-- DEVICE CONTROLS -->
+
+        <div
+            id="deviceControls"
+            class="device-controls hidden"
+        >
+
+            <div class="device-connected">
+
+                <div class="connected-check">
+                    ✓
+                </div>
+
+                <div>
+                    <strong>
+                        Dispositivo conectado
+                    </strong>
+
+                    <span id="connectedDeviceName">
+                        Dispositivo autorizado
+                    </span>
+                </div>
+
+            </div>
+
+
+            <div class="device-control-section">
+
+                <span class="control-label">
+                    Pantalla
+                </span>
+
+                <div class="device-control-buttons">
+
+                    <button
+                        id="shareScreen"
+                        class="primary-button"
+                        type="button"
+                    >
+                        Compartir pantalla
+                    </button>
+
+                    <button
+                        id="stopScreen"
+                        class="secondary-button"
+                        type="button"
+                    >
+                        Detener pantalla
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="device-control-section">
+
+                <span class="control-label">
+                    Actividad de esta aplicación
+                </span>
+
+                <div class="search-event-box">
+
+                    <input
+                        id="deviceSearchInput"
+                        type="text"
+                        placeholder="Buscar dentro de esta app..."
+                        maxlength="200"
+                        autocomplete="off"
+                    >
+
+                    <button
+                        id="registerSearch"
+                        class="secondary-button"
+                        type="button"
+                    >
+                        Registrar
+                    </button>
+
+                </div>
+
+                <small class="field-help">
+                    Solo registra búsquedas realizadas dentro de esta
+                    aplicación.
+                </small>
+
+            </div>
+
+
+            <div class="device-security-note">
+
+                <span>
+                    🔒
+                </span>
+
+                <p>
+                    La pantalla solo se comparte después de que el usuario
+                    de este dispositivo lo autorice mediante el control
+                    del navegador.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     TOASTS
+========================================================= -->
+
+<div
+    id="toastContainer"
+    class="toast-container"
+    aria-live="polite"
+    aria-atomic="true"
+></div>
+
+
+<!-- =========================================================
+     LOADING
+========================================================= -->
+
+<div
+    id="loadingScreen"
+    class="loading-screen hidden"
+>
+
+    <div class="loading-box">
+
+        <div class="loading-spinner"></div>
+
+        <strong>
+            Conectando...
+        </strong>
+
+        <span>
+            Espera un momento
+        </span>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
+
+<script src="app.js" defer></script>
+
+</body>
+</html>
